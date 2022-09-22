@@ -3,3 +3,12 @@ description: 'Action of Lab1 in Syntax section'
 runs:
   using: 'docker'
   image: 'docker://rancher/cowsay:latest'
+  inputs:
+    say:
+      description: say
+    eyes:
+      description: eyes
+  args:
+    - -e
+    - ${{ inputs.eyes}}
+    - ${{ inputs.say }}
