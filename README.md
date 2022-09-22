@@ -1,53 +1,64 @@
 # Lab 1
 
-Test **shell** scripts using **bats**.
+Use **reusable workflow** and **action** to improve **maintainability** of a workflow.
 
 ## Tips
 
-- Github Action syntax for [Runs](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action) in Composite action
-- [actions/checkout](https://github.com/actions/checkout) documentation
-- bats [manual page](https://bats-core.readthedocs.io/en/stable/writing-tests.html#libraries-and-add-ons)
+- [Reusable Workflow](https://docs.github.com/en/actions/using-workflows/reusing-workflows) documentation
+- [Composite Action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action) documentation
+- GitHub Action [Matrix](https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs) syntax
 
 ## Setup
 
 Create a repository with the content of this folder.
 
-`testing-workflow.yaml` will run and do **nothing** (yet).
+`workflow.yaml` will run and validate the markdown of the documentation sections sequentially.
 
-![setup result](../assets/images/testing-lab1-setup-result.png)
+![setup result](../assets/images/reuse-lab1-maintainability.png)
 
-## Run the tests
+## Initiate a pull request
 
-- Setup `bats`, `bats-assert`, and `bats-support` as git submodules
-  
-  ```shell
-  git submodule add https://github.com/bats-core/bats-core.git tests/bats
-  git submodule add https://github.com/bats-core/bats-assert.git tests/test_helper/bats-assert
-  git submodule add https://github.com/bats-core/bats-support.git tests/test_helper/bats-support
-  ```
+The workflow work on a `pull_request` trigger,
 
-- Make `testing-workflow.yaml` load the git submodules
-- Run the `lab-tests.bats` file using `bats` from the `testing-workflow.yaml`
+- Update some markdown and create a Pull request to check if your new markdown pass the linter validation.
 
-## Test the addition script
+## Introduce a Matrix to the workflow
 
-- Add a test that check if `addition.sh` is working : 5 + 5 eq 10
-- Add a test that check if `addition.sh` is working : missing arg throw an error
-- Add a test that check if `addition.sh` is working : returned exit code is `3`
+Watching the workflow, you may see some redunduncies,
 
-## Test the hello-world script
+- Remove unneccessary link between job
+- Introduce a matrix to replace the duplication of code
 
-- Add a test that check if `hello-world.sh` print at least `Hello` and not `Hola`
+## Extract code to a reusable worklow
 
-## Test the palindrome script
+> One team of your entreprise want to copy your workflow to validate its documentation.
 
-- Add a test that check if `palindrome.sh` is not error with the word `kayak` and the output contains : `is a palindrome`
-- Add a test that check if `palindrome.sh` end with the word `palindrome` with a regex
+Split the configuration of the documentation validation from the documentation validation itself.
+
+- The reusable workflow take as input the directory to check
+
+This way, the team and yours will share the same process without duplication
+
+## Extract lint into a action
+
+> Another team want to check its documentation markdown but not in the same process as yours.
+
+Extract the markdown lint process into an action named `markdown-linter`
+
+- The action take as input the directory to lint
+- The action output the linter report without transformation
+- The reusable workflow use the action instead of the markdown lint step
+- The reusable workflow use the report to prepare the comment message
+
+This way, any team can check markdown file and act on it in theirs own way.
 
 ## Finish
 
-`testing-workflow.yaml` will run the 6 tests without failure.
+- `workflow.yaml` will run and validate the markdown of the documentation sections in parallel.
 
-![finish result](../assets/images/testing-lab1-finish-result.png)
+  ![finish result](../assets/images/testing-lab1-finish-result.png)
 
-Use the `testing-workflow.yaml` and the `lab-tests.bats` from the [solution](https://github.com/sfeir-open-source/sfeir-school-github-action-dev/tree/main/steps/30-testing-lab1-action-shell-testing-solution) to compare it with your solution.
+- `reusable-workflow.yaml` will be reusable by other teams with the same process.
+- `markdown-linter` action will be usable by other teams with a different process.
+
+Use the `workflow.yaml`, the `reusable-workflow.yaml`, and the `action.yaml` from the [solution](https://github.com/sfeir-open-source/sfeir-school-github-action-dev/tree/main/steps/40-reuse-lab1-maintainability-solution) to compare it with your solution.
