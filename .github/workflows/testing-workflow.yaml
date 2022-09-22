@@ -8,6 +8,6 @@ jobs:
 
       - name: bats test
         run: |
-          ${{ GITHUB_WORKSPACE }}/test/bats/bin/bats
-          ${{ GITHUB_WORKSPACE }}/test/lab-tests.bats
+          ${GITHUB_WORKSPACE}/test/bats/bin/bats
+          ${GITHUB_WORKSPACE}/test/lab-tests.bats
         shell: bash
