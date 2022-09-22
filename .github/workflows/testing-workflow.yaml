@@ -1,21 +1,10 @@
-name: Test the Lab 1 of Code
+name: Test the Lab 1 of Interactions
 on: push
 jobs:
-  test-syntax-lab1:
+  test-interactions-lab1:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: default run
-        uses: ./.
-
-      - name: custom run with mandatory input
-        uses: ./.
-        with:
-          say: GitHub Action Rocks
-
-      - name: custom run with all inputs
-        uses: ./.
-        with:
-          say: GitHub Action Rocks
-          eyes: o-
+      - run: npm install
+      - run: npm run prepare
+      - uses: ./.

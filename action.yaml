@@ -1,14 +1,5 @@
-name: 'Syntax:Lab1'
-description: 'Action of Lab1 in Syntax section'
-inputs:
-  say:
-    description: say
-  eyes:
-    description: eyes
+name: "Interactions:Lab1"
+description: "Action of Lab1 in Interactions section"
 runs:
-  using: 'docker'
-  image: 'docker://rancher/cowsay:latest'
-  args:
-    - -e
-    - ${{ inputs.eyes}}
-    - ${{ inputs.say }}
+  using: "node16"
+  main: "dist/index.js"
