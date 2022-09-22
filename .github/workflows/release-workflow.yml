@@ -6,3 +6,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.
+  release:
+    run-on: ubuntu-latest
+    needs: testing
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cycjimmy/semantic-release-action@v3
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
